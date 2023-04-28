@@ -24,7 +24,7 @@ export default function Main(props) {
         setCards(data);
       })
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   const onEditProfile = () => {
     props.onEditProfile(props.onClick);

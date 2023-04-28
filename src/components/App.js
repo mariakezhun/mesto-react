@@ -63,8 +63,8 @@ function App() {
               placeholder="Имя"
               name="name"
               required
-              minlength="2"
-              maxlength="40"
+              minLength="2"
+              maxLength="40"
               id="name"
             />
             <span className="popup__error name-error"></span>
@@ -76,8 +76,8 @@ function App() {
               placeholder="О себе"
               name="about"
               required
-              minlength="2"
-              maxlength="200"
+              minLength="2"
+              maxLength="200"
               id="about"
             />
             <span className="popup__error about-error"></span>
@@ -116,8 +116,8 @@ function App() {
               placeholder="Название"
               name="name"
               required
-              minlength="2"
-              maxlength="30"
+              minLength="2"
+              maxLength="30"
               id="title"
             />
             <span className="popup__error title-error"></span>
