@@ -29,6 +29,27 @@ function App() {
   });
   const [cards, setCards] = React.useState([]);
 
+  React.useEffect(() => {
+    Promise.all(
+      api
+        .getCards()
+        .then((res) => {
+          setCards(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+    );
+    api
+      .getUserInfo()
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   };
@@ -38,16 +59,6 @@ function App() {
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
   };
-
-  React.useEffect(() => {
-    api.getUserInfo()
-      .then(res => {
-        setCurrentUser(res)
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-  }, []);
 
   const handleUpdateUser = (data) => {
     api
@@ -77,23 +88,19 @@ function App() {
     setSelectedCard(card);
   };
 
-  React.useEffect(() => {
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
     api
-      .getCards()
-      .then((res) => {
-        setCards(res);
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
       })
       .catch((err) => {
         console.error(err);
       });
-  }, []);
-
-  function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
   }
 
   function handleCardDelete(card) {
@@ -151,7 +158,11 @@ function App() {
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
           />
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlace={handleAddPlaceSubmit}
+          />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </div>
       </div>
