@@ -1,32 +1,9 @@
-import { api } from "../utils/api";
 import React from "react";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
-
-  // const [userName, setUserName] = React.useState("");
-  // const [userDescription, setUserDescription] = React.useState("");
-  // const [userAvatar, setUserAvatar] = React.useState("");
-
-  // React.useEffect(() => {
-  //   // api
-  //   //   .getUserInfo()
-  //   //   .then((data) => {
-  //   //     setUserName(data.name);
-  //   //     setUserDescription(data.about);
-  //   //     setUserAvatar(data.avatar);
-  //   //   })
-  //   //   .catch((err) => console.log(err));
-
-  //   api
-  //     .getCards()
-  //     .then((data) => {
-  //       setCards(data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
 
   const onEditProfile = () => {
     props.onEditProfile(props.onClick);
@@ -39,7 +16,6 @@ export default function Main(props) {
   const onAddPlace = () => {
     props.onAddPlace(props.onClick);
   };
-
 
   return (
     <div className="main">
@@ -72,7 +48,13 @@ export default function Main(props) {
       </section>
       <section className="elements">
         {props.cards.map((data) => (
-          <Card key={data._id} card={data} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
+          <Card
+            key={data._id}
+            card={data}
+            onCardClick={props.onCardClick}
+            onCardLike={props.onCardLike}
+            onCardDelete={props.onCardDelete}
+          />
         ))}
       </section>
     </div>
